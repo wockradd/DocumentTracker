@@ -12,3 +12,8 @@ Document tracker written in Python, CW for F20SC
 - [ ] 6
 - [ ] 7
 - [ ] 8
+
+### Notes
+Does Plotter need to be a class?
+Task classes in different files?
+Add Comments
