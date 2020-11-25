@@ -5,8 +5,8 @@ Document tracker written in Python, CW for F20SC
 - [x] 1
 - [x] 2a
 - [x] 2b
-- [ ] 3a
-- [ ] 3b
+- [x] 3a
+- [x] 3b
 - [ ] 4
 - [ ] 5
 - [ ] 6
@@ -14,6 +14,7 @@ Document tracker written in Python, CW for F20SC
 - [ ] 8
 
 ### Notes
-Does Plotter need to be a class?
-Task classes in different files?
-Add Comments
+- Does Plotter need to be a class?
+- Task classes in different files?
+- Add Comments
+- Add enums for valid task ids

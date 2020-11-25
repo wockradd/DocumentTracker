@@ -6,6 +6,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from tkinter import *
 from tkinter import ttk
+from user_agents import parse
 
 #useful arguemtns 
 #issuu_cw2.json for file
@@ -52,7 +53,16 @@ class DataLoader:
 
 
 class Plotter:
-    def display(self,dictionary):
+    def displayHorz(self,dictionary):
+        n = len(dictionary)
+        plt.barh(range(n), list(dictionary.values()))
+        plt.yticks(range(n), list(dictionary.keys()))
+        plt.ylabel("Things")
+        plt.xlabel("Count")
+        plt.title("Title")
+        plt.show()
+    
+    def displayVert(self,dictionary):
         n = len(dictionary)
         plt.bar(range(n), list(dictionary.values()))
         plt.xticks(range(n), list(dictionary.keys()))
@@ -84,6 +94,21 @@ class Task2:
                 self.continentsCount[continents[cntry_to_cont[x]]] = self.countriesCount[x]
 
 
+class Task3:
+    browsersCount = {}
+
+    def countBrowsers(self):
+        for x in data:
+            browser = parse(x["visitor_useragent"]).browser.family
+            if browser in self.browsersCount:
+                self.browsersCount[browser] += 1
+            else:
+                self.browsersCount[browser] = 1
+
+
+            
+
+
 
 
 
@@ -91,20 +116,33 @@ def doTask(task_id):
     dataLoader = DataLoader(file_name)
     plotter = Plotter()
 
+    #make sure data loaded properly before doing any tasks
     if not dataLoader.failed:
+
         if task_id[0] == "2":
+            #need a doc id for task 2
             if doc_uuid == "":
                 print("Please specify a document like this: cw2 -d doc_uuid")
             else: 
+                #needed for both tasks
                 task2 = Task2()
                 task2.countCountries()
                 
                 if task_id[1] == "b":
+                    #2b
                     task2.countContinents()
                     print(task2.continentsCount)
-                    plotter.display(task2.continentsCount)
+                    plotter.displayVert(task2.continentsCount)
                 else:
-                    plotter.display(task2.countriesCount)
+                    #2a
+                    plotter.displayVert(task2.countriesCount)
+
+        if task_id[0] == "3":
+            task3 = Task3()
+            task3.countBrowsers()
+            plotter.displayHorz(task3.browsersCount)
+
+
 
 
 def main():
@@ -113,6 +151,7 @@ def main():
     global task_id
     global file_name
 
+    #get command line args
     if "-u" in sys.argv:
         user_uuid = sys.argv[sys.argv.index("-u")+1]
     if "-d" in sys.argv:
@@ -122,9 +161,11 @@ def main():
     if "-f" in sys.argv:
         file_name = sys.argv[sys.argv.index("-f")+1]
 
+    #cant do anything without a file
     if file_name == "":
         print("Please specify a file like this: cw2 -f file_name")
     else:
+        #need a valid task id too
         if task_id == "":
             print("Please specify a task like this: cw2 -t task_id")
         elif task_id not in validTasks:
