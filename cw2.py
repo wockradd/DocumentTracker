@@ -6,12 +6,16 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from tkinter import *
 from tkinter import ttk
-from user_agents import parse
+from fastuaparser import parse_ua
 import time
+import os
+import pygraphviz as pgv
+import networkx as nx
 
 #useful arguemtns 
 #issuu_cw2.json for file
-#140224101516-e5c074c3404177518bab9d7a65fb578e for document
+#140224101516-e5c074c3404177518bab9d7a65fb578e for task 2
+#140227145459-ea9a6d79dfd0d64c12f65d38cf2038ab for task 5
 
 
 #helpful dict
@@ -102,7 +106,7 @@ class Task2:
     def countCountries(self):
         for x in data:
             try:
-                if x["subject_doc_id"] == doc_uuid:
+                if x["env_doc_id"] == doc_uuid:
                     if x["visitor_country"] in self.countriesCount:
                         self.countriesCount[x["visitor_country"]] += 1
                     else:
@@ -126,7 +130,8 @@ class Task3:
     def countBrowsers(self):
         for x in data:
             try:
-                browser = parse(x["visitor_useragent"]).browser.family
+                browser = parse_ua(x["visitor_useragent"]).partition("-")[0]
+                #print(browser)
                 if browser in self.browsersCount:
                     self.browsersCount[browser] += 1
                 else:
@@ -142,15 +147,77 @@ class Task4:
     def getTopReaders(self):
         for x in data:
             try:
-                if x["visitor_uuid"] in self.topReaders:
-                    self.topReaders[x["visitor_uuid"]] += x["event_readtime"]/60000
+                if x["visitor_uuid"][-4:] in self.topReaders:
+                    self.topReaders[x["visitor_uuid"][-4:]] += x["event_readtime"]/60000
                 else:
-                    self.topReaders[x["visitor_uuid"]] = x["event_readtime"]/60000
+                    self.topReaders[x["visitor_uuid"][-4:]] = x["event_readtime"]/60000
             except KeyError:
                 pass
         self.topReaders = dict(sorted(self.topReaders.items(), key=lambda x:x[1], reverse=True)[:10])
         
 
+
+class Task5:
+    uniqueVisitors = []
+    uniqueDocuments = []
+    likes = []
+    docNumbers = {}
+    userPrime = "" #if they provide a user they care about
+
+    def getVisitors(self,document):
+        for x in data:
+            try:
+                if x["env_doc_id"] == document:
+                    if x["visitor_uuid"][-4:] not in self.uniqueVisitors:
+                        self.uniqueVisitors.append(x["visitor_uuid"][-4:])
+            except KeyError:
+                pass
+
+    
+    def alsoLikes(self):
+        for vis in self.uniqueVisitors:
+            for x in data:
+                try:
+                    if x["visitor_uuid"][-4:] == vis:
+                        #save all the unique doc ids
+                        if x["env_doc_id"][-4:] not in self.uniqueDocuments:
+                            self.uniqueDocuments.append(x["env_doc_id"][-4:])
+
+                        #populate the thing for task 5
+                        if x["env_doc_id"][-4:] in self.docNumbers:
+                            self.docNumbers[x["env_doc_id"][-4:]] += 1
+                        else:
+                            self.docNumbers[x["env_doc_id"][-4:]] = 1
+
+                        #populate the thing for task 6
+                        if (x["visitor_uuid"][-4:],x["env_doc_id"][-4:]) not in self.likes:
+                            self.likes.append((x["visitor_uuid"][-4:],x["env_doc_id"][-4:]))
+                except KeyError:
+                    pass
+
+            #sort the list
+            self.docNumbers = dict(sorted(self.docNumbers.items(), key=lambda x:x[1], reverse=True))
+            
+
+    def makeGraph(self):
+        G = nx.DiGraph()
+        G.add_node(doc_uuid[-4:],style = "filled",color = "green")
+
+        if self.userPrime[-4:] in self.uniqueVisitors: 
+            G.add_node(self.userPrime[-4:],style = "filled",color = "green")
+
+        for x in self.likes:
+            G.add_edge(x[0],x[1])
+
+        A = nx.nx_agraph.to_agraph(G)
+        A.add_subgraph(self.uniqueVisitors,rank='same')
+        A.add_subgraph(self.uniqueDocuments,rank='same')
+        A.draw('example.ps', prog='dot')
+        os.system("evince example.ps")
+        
+
+
+    
 
 
 
@@ -198,6 +265,35 @@ def doTask(task_id):
                 task4.getTopReaders()
             print(task4.topReaders)
             plotter.displayHorz(task4.topReaders)
+        
+        if task_id == "5" or task_id == "6":
+            if doc_uuid == "":
+                print("Please specify a document like this: cw2 -d doc_uuid")
+            else:
+                task5 = Task5()
+                if user_uuid != "":
+                    task5.userPrime = user_uuid
+                #pretty gross, gotta load in the data twice
+                
+                for i in range(10):
+                    dataLoader.loadPartOfData(i)
+                    task5.getVisitors(doc_uuid)
+                print("Got all visitors, now to find the documents")
+                for i in range(10):
+                    dataLoader.loadPartOfData(i)
+                    task5.alsoLikes()
+                
+
+                print("User: %s" % task5.userPrime)
+                if task_id == "5":
+                    print(task5.docNumbers)
+                    plotter.displayHorz(task5.docNumbers)
+                else:
+                    print(task5.likes)
+                    task5.makeGraph()
+                
+                
+                
 
 
 

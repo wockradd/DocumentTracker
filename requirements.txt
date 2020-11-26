@@ -1,2 +1,6 @@
 pip3 install matplotlib
-pip3 install pyyaml ua-parser user-agents
+pip3 install pygraphviz
+pip3 install fastuaparser
+pip3 install networkx
+
+need graphviz-dev too
