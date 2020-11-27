@@ -62,23 +62,23 @@ class DataLoader:
 
 
 class Plotter:
-    def displayHorz(self,dictionary):
+    #displays the data its given using matplotlib
+    def display(self,dictionary, things, title, vert=False):
         n = len(dictionary)
-        plt.barh(range(n), list(dictionary.values()))
-        plt.yticks(range(n), list(dictionary.keys()))
-        plt.ylabel("Things")
-        plt.xlabel("Count")
-        plt.title("Title")
+        if vert:
+            plt.bar(range(n), list(dictionary.values()))
+            plt.xticks(range(n), list(dictionary.keys()))
+            plt.xlabel(things)
+            plt.ylabel("Count")
+        else:
+            plt.barh(range(n), list(dictionary.values()))
+            plt.yticks(range(n), list(dictionary.keys()))
+            plt.ylabel(things)
+            plt.xlabel("Count")
+        
+        plt.title(title)
         plt.show()
-    
-    def displayVert(self,dictionary):
-        n = len(dictionary)
-        plt.bar(range(n), list(dictionary.values()))
-        plt.xticks(range(n), list(dictionary.keys()))
-        plt.xlabel("Things")
-        plt.ylabel("Count")
-        plt.title("Title")
-        plt.show()
+
 
 
 
@@ -93,8 +93,9 @@ class Task2:
     def countCountries(self):
         for x in data:
             try:
+                #we've found an instance of the doc we're interested in
                 if x["env_doc_id"] == self.docId:
-                    if x["visitor_country"] in self.countriesCount:
+                    if x["visitor_country"] in self.countriesCount:#seen it before
                         self.countriesCount[x["visitor_country"]] += 1
                     else:
                         self.countriesCount[x["visitor_country"]] = 1
@@ -104,7 +105,7 @@ class Task2:
     
     def countContinents(self):
         for x in self.countriesCount:
-            if continents[cntry_to_cont[x]] in self.continentsCount:
+            if continents[cntry_to_cont[x]] in self.continentsCount:#seen it before
                 self.continentsCount[continents[cntry_to_cont[x]]] += self.countriesCount[x]
             else:
                 self.continentsCount[continents[cntry_to_cont[x]]] = self.countriesCount[x]
@@ -118,8 +119,7 @@ class Task3:
         for x in data:
             try:
                 browser = parse_ua(x["visitor_useragent"]).partition("-")[0]
-                #print(browser)
-                if browser in self.browsersCount:
+                if browser in self.browsersCount:#seen it before
                     self.browsersCount[browser] += 1
                 else:
                     self.browsersCount[browser] = 1
@@ -134,12 +134,14 @@ class Task4:
     def getTopReaders(self):
         for x in data:
             try:
-                if x["visitor_uuid"][-4:] in self.topReaders:
+                if x["visitor_uuid"][-4:] in self.topReaders:#seen it before
                     self.topReaders[x["visitor_uuid"][-4:]] += x["event_readtime"]/60000
                 else:
                     self.topReaders[x["visitor_uuid"][-4:]] = x["event_readtime"]/60000
             except KeyError:
                 pass
+
+        #only care about the top 10
         self.topReaders = dict(sorted(self.topReaders.items(), key=lambda x:x[1], reverse=True)[:10])
         
 
@@ -192,15 +194,19 @@ class Task5:
             
 
     def makeGraph(self):
+        #init graph
         G = nx.DiGraph()
         G.add_node(self.docId[-4:],style = "filled",color = "green")
 
+        #color user if specified
         if self.userId[-4:] in self.uniqueVisitors: 
             G.add_node(self.userId[-4:],style = "filled",color = "green")
 
+        #add edges
         for x in self.likes:
             G.add_edge(x[0],x[1])
 
+        #sort out layout and display
         A = nx.nx_agraph.to_agraph(G)
         A.add_subgraph(self.uniqueVisitors,rank='same')
         A.add_subgraph(self.uniqueDocuments,rank='same')

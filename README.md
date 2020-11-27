@@ -16,6 +16,4 @@ It'll look for whatever file you specify in the data folder so make sure you sav
 - [x] 8
 
 ### Notes
-- Update plotter so the title and stuff are correct
-- Add Comments
 - Make 5 and 6 a bit less gross

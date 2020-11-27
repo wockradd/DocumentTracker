@@ -51,11 +51,11 @@ def doTask(task_id):
                     #finish off b
                     task2.countContinents()
                     print(task2.continentsCount)
-                    plotter.displayVert(task2.continentsCount)
+                    plotter.display(task2.continentsCount,"Continents","Continents where the document was viewed", True)
                 else:
                     #finish off a
                     print(task2.countriesCount)
-                    plotter.displayVert(task2.countriesCount)
+                    plotter.display(task2.countriesCount,"Countries","Countries where the document was viewed", True)
 
         if task_id == "3":
             task3 = tasks.Task3()
@@ -63,7 +63,7 @@ def doTask(task_id):
                 dataLoader.loadPartOfData(i)
                 task3.countBrowsers()
             print(task3.browsersCount)
-            plotter.displayHorz(task3.browsersCount)
+            plotter.display(task3.browsersCount, "Browsers", "Browsers by popularity")
 
         if task_id == "4":
             task4 = tasks.Task4()
@@ -71,7 +71,7 @@ def doTask(task_id):
                 dataLoader.loadPartOfData(i)
                 task4.getTopReaders()
             print(task4.topReaders)
-            plotter.displayHorz(task4.topReaders)
+            plotter.display(task4.topReaders, "Users", "Top 10 readers")
         
         if task_id == "5" or task_id == "6":
             if doc_uuid == "":
@@ -82,7 +82,7 @@ def doTask(task_id):
                 
                 for i in range(10):
                     dataLoader.loadPartOfData(i)
-                    task5.getVisitors(doc_uuid)
+                    task5.getVisitors()
                 print("Got all visitors, now to find the documents")
                 for i in range(10):
                     dataLoader.loadPartOfData(i)
@@ -92,7 +92,7 @@ def doTask(task_id):
                 print("User: %s" % task5.userId)
                 if task_id == "5":
                     print(task5.docNumbers)
-                    plotter.displayHorz(task5.docNumbers)
+                    plotter.display(task5.docNumbers,"Documents","Documents also liked ranked")
                 else:
                     print(task5.likes)
                     task5.makeGraph()

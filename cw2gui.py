@@ -33,11 +33,11 @@ def run():
                     #finish off b
                     task2.countContinents()
                     print(task2.continentsCount)
-                    plotter.displayVert(task2.continentsCount)
+                    plotter.display(task2.continentsCount,"Continents","Continents where the document was viewed", True)
                 else:
                     #finish off a
                     print(task2.countriesCount)
-                    plotter.displayVert(task2.countriesCount)
+                    plotter.display(task2.countriesCount,"Countries","Countries where the document was viewed", True)
 
         if taskId.get() == "3":
             task3 = tasks.Task3()
@@ -45,7 +45,7 @@ def run():
                 dataLoader.loadPartOfData(i)
                 task3.countBrowsers()
             print(task3.browsersCount)
-            plotter.displayHorz(task3.browsersCount)
+            plotter.display(task3.browsersCount, "Browsers", "Browsers by popularity")
 
         if taskId.get() == "4":
             task4 = tasks.Task4()
@@ -53,7 +53,7 @@ def run():
                 dataLoader.loadPartOfData(i)
                 task4.getTopReaders()
             print(task4.topReaders)
-            plotter.displayHorz(task4.topReaders)
+            plotter.display(task4.topReaders, "Users", "Top 10 readers")
         
         if taskId.get() == "5" or taskId.get() == "6":
             if docId.get() == "":
@@ -74,7 +74,7 @@ def run():
                 print("User: %s" % task5.userId)
                 if taskId.get() == "5":
                     print(task5.docNumbers)
-                    plotter.displayHorz(task5.docNumbers)
+                    plotter.display(task5.docNumbers,"Documents","Documents also liked ranked")
                 else:
                     print(task5.likes)
                     task5.makeGraph()
@@ -91,17 +91,19 @@ def checkInputs(*args):
         elif taskId.get() not in validTasks:
             output.set("Invalid task, valid tasks are:" + str(validTasks))
         else:
-            output.set("Running")
+            output.set("Done, see the console for more info")
             run()
-        
+            
+
+#init gui   
 root = Tk()
 root.title("CW2")
-
 mainframe = ttk.Frame(root, padding="3 3 12 12")
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 mainframe.columnconfigure(0, weight=1)
 mainframe.rowconfigure(0, weight=1)
 
+#vars holding the strings we care about
 fileId = StringVar()
 taskId = StringVar()
 userId = StringVar()
@@ -109,7 +111,7 @@ docId = StringVar()
 output = StringVar()
 
 
-
+#set up textboxes for user, file, doc and task
 file_entry = ttk.Entry(mainframe, width=70, textvariable=fileId)
 file_entry.grid(column=2, row=1, sticky=(W, E))
 ttk.Label(mainframe, text="file:").grid(column=1, row=1, sticky=W)
@@ -126,7 +128,7 @@ doc_entry = ttk.Entry(mainframe, textvariable=docId)
 doc_entry.grid(column=2, row=4, sticky=(W, E))
 ttk.Label(mainframe, text="doc:").grid(column=1, row=4, sticky=W)
 
-
+#add run button and some info for the user
 ttk.Button(mainframe, text="Run", command=checkInputs).grid(column=1, row=5)
 ttk.Label(mainframe, textvariable = output).grid(column=2, row=6, sticky=S)
 
