@@ -156,10 +156,10 @@ class Task5:
         self.docId = docId
         self.userId = userId
 
-    def getVisitors(self,document):
+    def getVisitors(self):
         for x in data:
             try:
-                if x["env_doc_id"] == document:
+                if x["env_doc_id"] == self.docId:
                     if x["visitor_uuid"][-4:] not in self.uniqueVisitors:
                         self.uniqueVisitors.append(x["visitor_uuid"][-4:])
             except KeyError:

@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
 #imports libraries
-from tkinter import *
-from tkinter import ttk
+import sys
 import time
 
 #import python files
