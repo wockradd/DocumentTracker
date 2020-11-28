@@ -59,25 +59,28 @@ def run():
             if docId.get() == "":
                 output.set("Please specify a document")
             else:
-                task5 = tasks.Task5(docId.get(), userId.get())
+                task5and6 = tasks.Task5and6(docId.get(), userId.get())
+
                 #pretty gross, gotta load in the data twice
-                
                 for i in range(10):
                     dataLoader.loadPartOfData(i)
-                    task5.getVisitors()
+                    task5and6.getVisitors()
                 print("Got all visitors, now to find the documents")
                 for i in range(10):
                     dataLoader.loadPartOfData(i)
-                    task5.alsoLikes()
+                    task5and6.alsoLikes()
                 
+                #print the user if they've supplied one
+                print("User: %s" % task5and6.userId)
 
-                print("User: %s" % task5.userId)
+                #finish off task 5
                 if taskId.get() == "5":
-                    print(task5.docNumbers)
-                    plotter.display(task5.docNumbers,"Documents","Documents also liked ranked")
+                    print(task5and6.docNumbers)
+                    plotter.display(task5and6.docNumbers,"Documents","Documents also liked ranked")
+                #finish off task 6
                 else:
-                    print(task5.likes)
-                    task5.makeGraph()
+                    print(task5and6.likes)
+                    task5and6.makeGraph()
 
 
 def checkInputs(*args):

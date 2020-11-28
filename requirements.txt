@@ -3,4 +3,5 @@ pip3 install pygraphviz
 pip3 install fastuaparser
 pip3 install networkx
 
-need graphviz-dev too
+sudo apt-get install graphviz
+sudo apt-get install graphviz-dev

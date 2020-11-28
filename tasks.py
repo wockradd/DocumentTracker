@@ -33,7 +33,10 @@ class DataLoader:
     
     #set the path, see if the file exists, work out how big it is
     def __init__(self,file_name):
+        self.failed = False
+        self.fileSize = 0
         self.path = "./data/" + file_name
+        
         try:
             with open(self.path, "r") as JSONfile:
                 print("Working out file size")
@@ -89,6 +92,8 @@ class Task2:
 
     def __init__(self,docId):
         self.docId = docId
+        self.countriesCount = {}
+        self.continentsCount = {}
 
     def countCountries(self):
         for x in data:
@@ -115,6 +120,9 @@ class Task2:
 class Task3:
     browsersCount = {}
 
+    def __init__(self):
+        self.browsersCount = {}
+
     def countBrowsers(self):
         for x in data:
             try:
@@ -131,6 +139,9 @@ class Task3:
 class Task4:
     topReaders = {}
 
+    def __init__(self):
+        self.topReaders = {}
+
     def getTopReaders(self):
         for x in data:
             try:
@@ -146,7 +157,7 @@ class Task4:
         
 
 
-class Task5:
+class Task5and6:
     uniqueVisitors = []
     uniqueDocuments = []
     likes = []
@@ -157,6 +168,10 @@ class Task5:
     def __init__(self,docId,userId):
         self.docId = docId
         self.userId = userId
+        self.uniqueVisitors = []
+        self.uniqueDocuments = []
+        self.likes = []
+        self.docNumbers = {}
 
     def getVisitors(self):
         for x in data:
