@@ -10,7 +10,7 @@ import tasks
 validTasks = ["2a","2b","3","4","5","6"]
 
 
-
+#main function that does the tasks
 def run():
     dataLoader = tasks.DataLoader(fileId.get())
     plotter = tasks.Plotter()
@@ -41,17 +41,23 @@ def run():
 
         if taskId.get() == "3":
             task3 = tasks.Task3()
+            #work it out
             for i in range(10):
                 dataLoader.loadPartOfData(i)
                 task3.countBrowsers()
+            
+            #display it
             print(task3.browsersCount)
             plotter.display(task3.browsersCount, "Browsers", "Browsers by popularity")
 
         if taskId.get() == "4":
             task4 = tasks.Task4()
+            #work it out
             for i in range(10):
                 dataLoader.loadPartOfData(i)
                 task4.getTopReaders()
+            
+            #display it
             print(task4.topReaders)
             plotter.display(task4.topReaders, "Users", "Top 10 readers")
         
@@ -83,6 +89,7 @@ def run():
                     task5and6.makeGraph()
 
 
+#callback function for the run button, checks inputs are valid before calling run()
 def checkInputs(*args):
     #cant do anything without a file
     if fileId.get() == "":
@@ -135,8 +142,11 @@ ttk.Label(mainframe, text="doc:").grid(column=1, row=4, sticky=W)
 ttk.Button(mainframe, text="Run", command=checkInputs).grid(column=1, row=5)
 ttk.Label(mainframe, textvariable = output).grid(column=2, row=6, sticky=S)
 
+#add padding
 for child in mainframe.winfo_children(): child.grid_configure(padx=5, pady=5)
 
+#not sure
 root.bind('<Return>', checkInputs)
 
+#run
 root.mainloop()

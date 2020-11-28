@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+#import libraries
 import json
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -22,7 +23,7 @@ continents = {
 #maps countries to continents
 cntry_to_cont = { 'AF' : 'AS', 'AX' : 'EU', 'AL' : 'EU', 'DZ' : 'AF', 'AS' : 'OC', 'AD' : 'EU', 'AO' : 'AF', 'AI' : 'NA', 'AQ' : 'AN', 'AG' : 'NA', 'AR' : 'SA', 'AM' : 'AS', 'AW' : 'NA', 'AU' : 'OC', 'AT' : 'EU', 'AZ' : 'AS', 'BS' : 'NA', 'BH' : 'AS', 'BD' : 'AS', 'BB' : 'NA', 'BY' : 'EU', 'BE' : 'EU', 'BZ' : 'NA', 'BJ' : 'AF', 'BM' : 'NA', 'BT' : 'AS', 'BO' : 'SA', 'BQ' : 'NA', 'BA' : 'EU', 'BW' : 'AF', 'BV' : 'AN', 'BR' : 'SA', 'IO' : 'AS', 'VG' : 'NA', 'BN' : 'AS', 'BG' : 'EU', 'BF' : 'AF', 'BI' : 'AF', 'KH' : 'AS', 'CM' : 'AF', 'CA' : 'NA', 'CV' : 'AF', 'KY' : 'NA', 'CF' : 'AF', 'TD' : 'AF', 'CL' : 'SA', 'CN' : 'AS', 'CX' : 'AS', 'CC' : 'AS', 'CO' : 'SA', 'KM' : 'AF', 'CD' : 'AF', 'CG' : 'AF', 'CK' : 'OC', 'CR' : 'NA', 'CI' : 'AF', 'HR' : 'EU', 'CU' : 'NA', 'CW' : 'NA', 'CY' : 'AS', 'CZ' : 'EU', 'DK' : 'EU', 'DJ' : 'AF', 'DM' : 'NA', 'DO' : 'NA', 'EC' : 'SA', 'EG' : 'AF', 'SV' : 'NA', 'GQ' : 'AF', 'ER' : 'AF', 'EE' : 'EU', 'ET' : 'AF', 'FO' : 'EU', 'FK' : 'SA', 'FJ' : 'OC', 'FI' : 'EU', 'FR' : 'EU', 'GF' : 'SA', 'PF' : 'OC', 'TF' : 'AN', 'GA' : 'AF', 'GM' : 'AF', 'GE' : 'AS', 'DE' : 'EU', 'GH' : 'AF', 'GI' : 'EU', 'GR' : 'EU', 'GL' : 'NA', 'GD' : 'NA', 'GP' : 'NA', 'GU' : 'OC', 'GT' : 'NA', 'GG' : 'EU', 'GN' : 'AF', 'GW' : 'AF', 'GY' : 'SA', 'HT' : 'NA', 'HM' : 'AN', 'VA' : 'EU', 'HN' : 'NA', 'HK' : 'AS', 'HU' : 'EU', 'IS' : 'EU', 'IN' : 'AS', 'ID' : 'AS', 'IR' : 'AS', 'IQ' : 'AS', 'IE' : 'EU', 'IM' : 'EU', 'IL' : 'AS', 'IT' : 'EU', 'JM' : 'NA', 'JP' : 'AS', 'JE' : 'EU', 'JO' : 'AS', 'KZ' : 'AS', 'KE' : 'AF', 'KI' : 'OC', 'KP' : 'AS', 'KR' : 'AS', 'KW' : 'AS', 'KG' : 'AS', 'LA' : 'AS', 'LV' : 'EU', 'LB' : 'AS', 'LS' : 'AF', 'LR' : 'AF', 'LY' : 'AF', 'LI' : 'EU', 'LT' : 'EU', 'LU' : 'EU', 'MO' : 'AS', 'MK' : 'EU', 'MG' : 'AF', 'MW' : 'AF', 'MY' : 'AS', 'MV' : 'AS', 'ML' : 'AF', 'MT' : 'EU', 'MH' : 'OC', 'MQ' : 'NA', 'MR' : 'AF', 'MU' : 'AF', 'YT' : 'AF', 'MX' : 'NA', 'FM' : 'OC', 'MD' : 'EU', 'MC' : 'EU', 'MN' : 'AS', 'ME' : 'EU', 'MS' : 'NA', 'MA' : 'AF', 'MZ' : 'AF', 'MM' : 'AS', 'NA' : 'AF', 'NR' : 'OC', 'NP' : 'AS', 'NL' : 'EU', 'NC' : 'OC', 'NZ' : 'OC', 'NI' : 'NA', 'NE' : 'AF', 'NG' : 'AF', 'NU' : 'OC', 'NF' : 'OC', 'MP' : 'OC', 'NO' : 'EU', 'OM' : 'AS', 'PK' : 'AS', 'PW' : 'OC', 'PS' : 'AS', 'PA' : 'NA', 'PG' : 'OC', 'PY' : 'SA', 'PE' : 'SA', 'PH' : 'AS', 'PN' : 'OC', 'PL' : 'EU', 'PT' : 'EU', 'PR' : 'NA', 'QA' : 'AS', 'RE' : 'AF', 'RO' : 'EU', 'RU' : 'EU', 'RW' : 'AF', 'BL' : 'NA', 'SH' : 'AF', 'KN' : 'NA', 'LC' : 'NA', 'MF' : 'NA', 'PM' : 'NA', 'VC' : 'NA', 'WS' : 'OC', 'SM' : 'EU', 'ST' : 'AF', 'SA' : 'AS', 'SN' : 'AF', 'RS' : 'EU', 'SC' : 'AF', 'SL' : 'AF', 'SG' : 'AS', 'SX' : 'NA', 'SK' : 'EU', 'SI' : 'EU', 'SB' : 'OC', 'SO' : 'AF', 'ZA' : 'AF', 'GS' : 'AN', 'SS' : 'AF', 'ES' : 'EU', 'LK' : 'AS', 'SD' : 'AF', 'SR' : 'SA', 'SJ' : 'EU', 'SZ' : 'AF', 'SE' : 'EU', 'CH' : 'EU', 'SY' : 'AS', 'TW' : 'AS', 'TJ' : 'AS', 'TZ' : 'AF', 'TH' : 'AS', 'TL' : 'AS', 'TG' : 'AF', 'TK' : 'OC', 'TO' : 'OC', 'TT' : 'NA', 'TN' : 'AF', 'TR' : 'AS', 'TM' : 'AS', 'TC' : 'NA', 'TV' : 'OC', 'UG' : 'AF', 'UA' : 'EU', 'AE' : 'AS', 'GB' : 'EU', 'US' : 'NA', 'UM' : 'OC', 'VI' : 'NA', 'UY' : 'SA', 'UZ' : 'AS', 'VU' : 'OC', 'VE' : 'SA', 'VN' : 'AS', 'WF' : 'OC', 'EH' : 'AF', 'YE' : 'AS', 'ZM' : 'AF', 'ZW' : 'AF' } 
 
-
+#main list that will hold the json
 data = []
 
 
@@ -33,6 +34,7 @@ class DataLoader:
     
     #set the path, see if the file exists, work out how big it is
     def __init__(self,file_name):
+        #initialise stuff
         self.failed = False
         self.fileSize = 0
         self.path = "./data/" + file_name
@@ -52,12 +54,17 @@ class DataLoader:
     # x=2 means get the data from 20 - 30% etc
     def loadPartOfData(self,x):
         global data
-        data = []
+        data = [] #empty the list
+
+        #work out start and ending lines
         start = (self.fileSize*x)//10
         end = (self.fileSize*(x+1))//10
+
         print("Dealing with lines %d to %d" % (start,end))
+
         with open(self.path, "r") as JSONfile:
             for pos,line in enumerate(JSONfile):
+                #load the data from line start to end into the list
                 if pos >= start and pos < end:
                      data.append(json.loads(line))
             
@@ -90,11 +97,13 @@ class Task2:
     continentsCount = {}
     docId = ""
 
+    #initialise stuff, resets the dictionaries for the GUI version
     def __init__(self,docId):
         self.docId = docId
         self.countriesCount = {}
         self.continentsCount = {}
 
+    #populates the contriesCount dictionary
     def countCountries(self):
         for x in data:
             try:
@@ -108,6 +117,7 @@ class Task2:
                 pass
 
     
+    #populates the continentsCount dictionary
     def countContinents(self):
         for x in self.countriesCount:
             if continents[cntry_to_cont[x]] in self.continentsCount:#seen it before
@@ -120,9 +130,11 @@ class Task2:
 class Task3:
     browsersCount = {}
 
+    #initialise stuff, resets the dictionary for the GUI version
     def __init__(self):
         self.browsersCount = {}
 
+    #populates the browserCount dictionary
     def countBrowsers(self):
         for x in data:
             try:
@@ -139,9 +151,11 @@ class Task3:
 class Task4:
     topReaders = {}
 
+    #initialise stuff, resets the dictionary for the GUI version
     def __init__(self):
         self.topReaders = {}
 
+    #populates the topReaders dictionary
     def getTopReaders(self):
         for x in data:
             try:
@@ -165,6 +179,7 @@ class Task5and6:
     docId = ""
     userId = "" #if they provide a user they care about
 
+    #initialise stuff, resets the dictionaries and lists for the GUI version
     def __init__(self,docId,userId):
         self.docId = docId
         self.userId = userId
@@ -173,6 +188,7 @@ class Task5and6:
         self.likes = []
         self.docNumbers = {}
 
+    #works out which users have seen the document
     def getVisitors(self):
         for x in data:
             try:
@@ -182,7 +198,7 @@ class Task5and6:
             except KeyError:
                 pass
 
-    
+    #main function for task 5 and 6
     def alsoLikes(self):
         for vis in self.uniqueVisitors:
             for x in data:

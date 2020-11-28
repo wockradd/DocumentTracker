@@ -59,17 +59,23 @@ def doTask(task_id):
 
         if task_id == "3":
             task3 = tasks.Task3()
+            #work it out
             for i in range(10):
                 dataLoader.loadPartOfData(i)
                 task3.countBrowsers()
+
+            #display it
             print(task3.browsersCount)
             plotter.display(task3.browsersCount, "Browsers", "Browsers by popularity")
 
         if task_id == "4":
             task4 = tasks.Task4()
+            #work it out
             for i in range(10):
                 dataLoader.loadPartOfData(i)
                 task4.getTopReaders()
+
+            #display it
             print(task4.topReaders)
             plotter.display(task4.topReaders, "Users", "Top 10 readers")
         
@@ -105,7 +111,7 @@ def doTask(task_id):
 
 
 
-
+#entry point
 def main():
     startTime = time.time()
 
