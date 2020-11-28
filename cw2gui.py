@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+#Author: Lee Donovan, 2020
+#Open source, you can do what you want with this code
+
 from tkinter import *
 from tkinter import ttk
 
